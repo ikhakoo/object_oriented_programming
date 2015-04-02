@@ -13,15 +13,18 @@ class Rover
 	def process_input(input)
 		values = input.split("")
 		values.each do |value|
-			if value == "L"
-				turn_left
-			elsif value == "R"
-				turn_right
-			elsif value == "M"
-				move_forward
-			end
-
+			read_instruction(value)
 			draw
+		end
+	end
+
+	def read_instruction(value)
+		if value == "L"
+			turn_left
+		elsif value == "R"
+			turn_right
+		elsif value == "M"
+			move_forward
 		end
 	end
 
