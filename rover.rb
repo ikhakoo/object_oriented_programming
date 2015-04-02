@@ -26,7 +26,10 @@ class Rover
 	end
 
 	def move_forward
-		return if @dead
+		if @dead
+			@dead += 1
+			return
+		end
 
 		if @direction == "N"
 			@y += 1
@@ -37,8 +40,9 @@ class Rover
 		elsif @direction == "W"
 			@x -= 1
 		end
+
 		if off_the_grid?(@x, @y)
-			@dead = true
+			@dead = @dead || 0
 		end
 	end
 
@@ -75,14 +79,25 @@ class Rover
 		@x == x and @y == y
 	end
 
+	DEADS = [
+		"YOU DEAD BITCH",
+		"YOU SO DEAD BITCH",
+		"YOU AS DEAD AS THEY COME",
+		"Bereft of life, you rest peace",
+		"You have rung down the curtain and joined the choir invisible",
+		"YOU ARE AN EX-ROVER",
+		"",
+		"...so dead."
+	]
+
 	def draw
 		if STDIN.tty?
 			clear_screen
 
 			if @dead
-				puts "YOU DEAD"
+				puts DEADS[@dead % DEADS.size]
 			else
-				puts
+				puts self
 			end
 
 			(HEIGHT+1).downto(-1) do |y|
@@ -104,7 +119,8 @@ class Rover
 
 				puts
 			end
-			sleep 0.5
+			sleep 1
+			sleep 1 if @dead
 		else
 			# dumb output
 			puts self
@@ -112,7 +128,7 @@ class Rover
 	end
 	
 	def clear_screen
-		print "\e[2J"
+		print "\e[2J\e[;H"
 	end
 
 	def to_s
@@ -122,4 +138,4 @@ end
 
 
 my_rover = Rover.new(1, 1, "N")
-my_rover.process_input("MMLMMMMMMMMMMM")
+my_rover.process_input("MMRMMLMMLMMMMMMMMMM")
