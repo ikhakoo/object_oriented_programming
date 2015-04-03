@@ -21,13 +21,15 @@ class Instructor < Person
 end
 
 
-
+### The below code will not work because the Instructor classes
+### extends the instructor/student class and as such cannot pull
+### the teach/learn methods as they pertain to that specific class only
 chris = Instructor.new("Chris")
-puts chris.teach
+puts chris.learn
 puts chris
 
 cristina = Student.new("Cristina")
-puts cristina.learn
+puts cristina.teach
 puts cristina
 
 
